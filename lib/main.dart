@@ -19,9 +19,9 @@ class RunApp  extends StatelessWidget {
 
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primaryColor: Colors.teal,
+        primaryColor: Colors.teal.shade600,
       ),
-      home:  AddProduct(),
+      home:  AllProducts(),
     );
   }
 }
