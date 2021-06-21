@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AddProduct extends StatefulWidget {
   @override
@@ -97,6 +97,11 @@ class _AddProductState extends State<AddProduct> {
                     child: Text('Add Product',style: TextStyle(color: Colors.white),),
                     onPressed: (){
                             if(_formKey.currentState.validate()){
+                              FirebaseFirestore.instance.collection('products').add({
+                                'product_title': _productTitleController.text,
+                                'product_description': _productDescriptionController.text,
+                                'product_price': _productPriceController.text ,
+                              }) ;
                             }
                       },
 
