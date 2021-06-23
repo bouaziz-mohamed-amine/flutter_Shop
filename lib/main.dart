@@ -21,7 +21,7 @@ class RunApp  extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Colors.teal.shade600,
       ),
-      home:  AllProducts(),
+      home: AllProducts(),
     );
   }
 }
