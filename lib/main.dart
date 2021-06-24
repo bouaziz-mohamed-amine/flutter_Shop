@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shop_app/admin_screens/All_Product.dart';
+import 'package:shop_app/admin_screens/home.dart';
 import 'package:shop_app/authentication/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -21,7 +22,11 @@ class RunApp  extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Colors.teal.shade600,
       ),
-      home: AllProducts(),
+      routes: {
+        '/add_product': (context)=> AddProduct(),
+        '/products': (context)=>AllProducts(),
+      },
+      home: HomeScreen(),
     );
   }
 }

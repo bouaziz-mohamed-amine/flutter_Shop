@@ -15,41 +15,50 @@ class _AllProductsState extends State<AllProducts> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        actions: [
-          IconButton(
-              onPressed: (){
-                Navigator.push(context, MaterialPageRoute(
-                    builder:(context){
-                        return AddProduct();
-                    } ));
-              },
-              icon: Icon(Icons.ice_skating),)
-        ],
         title: Text('All Products'),
         centerTitle: true,
       ),
         body: StreamBuilder(
           stream: FirebaseFirestore.instance.collection('products').snapshots(),
+          // ignore: missing_return
           builder: (context, streamSnapshot) {
-          return ListView.builder(
-            itemCount: streamSnapshot.data.docs.length,
-            itemBuilder: (ctx, index) =>
-              ListTile(
-                title: Text(streamSnapshot.data.docs[index]['product_title']),
-                subtitle: Text(streamSnapshot.data.docs[index]['product_description']),
-                trailing: IconButton(
-                    color: Colors.red,
-                    onPressed: (){
-                     // print(streamSnapshot.data.docs[index].id);
-                      FirebaseFirestore.instance.collection('products').doc(streamSnapshot.data.docs[index].id).delete() ;
-                    },
-                    icon: Icon(Icons.delete)
-                ),
-    )
-    );
+            switch(streamSnapshot.connectionState){
+              case ConnectionState.none:
+                return _loading();
+                break;
+              case ConnectionState.waiting:
+                return _loading();
+                break;
+              case ConnectionState.active:
+                return ListView.builder(
+                    itemCount: streamSnapshot.data.docs.length,
+                    itemBuilder: (ctx, index) =>
+                        ListTile(
+                          title: Text(streamSnapshot.data.docs[index]['product_title'],style: TextStyle(fontSize: 25),),
+                          subtitle: Text(streamSnapshot.data.docs[index]['product_description'],style: TextStyle(fontSize: 18),),
+                          trailing: IconButton(
+                              color: Colors.red,
+                              onPressed: (){
+                                FirebaseFirestore.instance.collection('products').doc(streamSnapshot.data.docs[index].id).delete() ;
+                              },
+                              icon: Icon(Icons.delete)
+                          ),
+                        )
+                );
+                break;
+
+            }
     },
     ),
     );
   }
-
+  Widget _loading(){
+    return Container(
+        width: double.infinity,
+        height: double.infinity,
+        child: Center(
+            child: CircularProgressIndicator()
+        )
+    );
+  }
 }
